@@ -1,7 +1,35 @@
 import Link from "next/link";
-import { books } from "@/data/books";
+import { createServerClient } from "@/lib/supabase-server";
 
-export default function Home() {
+type Book = {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  price: number;
+  pages: number | null;
+};
+
+export default async function Home() {
+  const supabase = createServerClient();
+
+  const { data: books, error } = await supabase
+    .from("books")
+    .select("*")
+    .order("id");
+
+  if (error) {
+    return (
+      <main className="min-h-screen bg-white text-slate-900">
+        <div className="mx-auto max-w-5xl px-6 py-16">
+          <h1 className="text-2xl font-bold">전자책을 불러오지 못했습니다</h1>
+          <p className="mt-4 text-sm text-slate-500">{error.message}</p>
+        </div>
+      </main>
+    );
+  }
+
+  const list = (books ?? []) as Book[];
+
   return (
     <main className="min-h-screen bg-white text-slate-900">
       <div className="mx-auto max-w-5xl px-6 py-16">
@@ -13,10 +41,10 @@ export default function Home() {
           기본을 다지는 PDF 전자책, 정석강의.
         </p>
 
-        <h2 className="mt-16 text-xl font-bold">전체 전자책 {books.length}종</h2>
+        <h2 className="mt-16 text-xl font-bold">전체 전자책 {list.length}종</h2>
 
         <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {books.map((book) => (
+          {list.map((book) => (
             <li key={book.id}>
               <Link
                 href={`/books/${book.id}`}

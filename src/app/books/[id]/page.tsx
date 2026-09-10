@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { books } from "@/data/books";
+import { createServerClient } from "@/lib/supabase-server";
 import AddToCartButton from "@/components/AddToCartButton";
 
 export default async function BookDetail({
@@ -9,7 +9,13 @@ export default async function BookDetail({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const book = books.find((b) => b.id === id);
+
+  const supabase = createServerClient();
+  const { data: book } = await supabase
+    .from("books")
+    .select("*")
+    .eq("id", id)
+    .single();
 
   if (!book) notFound();
 
