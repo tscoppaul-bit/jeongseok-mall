@@ -58,11 +58,14 @@ export default function CartPage() {
               </span>
             </div>
 
-            <button className="mt-8 w-full rounded-md bg-indigo-900 py-4 font-bold text-white hover:bg-indigo-800">
+             <Link
+              href="/checkout"
+              className="mt-8 block w-full rounded-md bg-indigo-900 py-4 text-center font-bold text-white hover:bg-indigo-800"
+            >
               결제하기
-            </button>
+            </Link>
             <p className="mt-3 text-center text-xs text-slate-400">
-              실습용 화면입니다. 실제 결제는 진행되지 않습니다.
+              테스트 결제입니다. 실제 금액이 청구되지 않습니다.
             </p>
           </>
         )}
