@@ -45,6 +45,12 @@ export default function Header() {
         <div className="flex items-center gap-3">
           {email ? (
             <>
+            <Link
+                href="/library"
+                className="text-sm font-bold text-slate-500 hover:text-indigo-900"
+              >
+                내 서재
+              </Link>
               <span className="hidden text-sm text-slate-500 sm:inline">
                 {email}
               </span>
