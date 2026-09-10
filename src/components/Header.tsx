@@ -7,7 +7,7 @@ import { useCart } from "@/lib/cart";
 import { createClient } from "@/lib/supabase";
 
 export default function Header() {
-  const { items } = useCart();
+  const { items, clearCart } = useCart();
   const router = useRouter();
   const [email, setEmail] = useState<string | null>(null);
 
@@ -30,6 +30,7 @@ export default function Header() {
   const handleLogout = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
+    clearCart();
     router.push("/");
     router.refresh();
   };
